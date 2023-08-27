@@ -1,7 +1,7 @@
 import styles from "./Home.module.css";
 import "animate.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Task } from "../../components/Task";
 import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
@@ -74,6 +74,25 @@ export function Home() {
     }, time());
   };
 
+  const newTaskRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (newTaskRef.current && !newTaskRef.current.contains(event.target)) {
+        setIsExitAddNewTask(true);
+
+        setTimeout(() => {
+          setOpenAddNewTask(false);
+        }, 500);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className={`${styles.home} animate__animated animate__fadeIn`}>
       <div className={styles.progress}>
@@ -124,6 +143,7 @@ export function Home() {
             isExitAddNewTask ? "animate__bounceOut" : "animate__bounceIn"
           } `}
           onSubmit={(e) => handleSubmit(e)}
+          ref={newTaskRef}
         >
           <label>
             <span>Título:</span>
@@ -141,7 +161,6 @@ export function Home() {
             <input
               type="text"
               placeholder="Descrição"
-              maxLength="100"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />

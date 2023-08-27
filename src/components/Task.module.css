@@ -1,4 +1,7 @@
 .tasks_item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: var(--secondary-background-color);
 
   padding: 1rem 2rem;
@@ -14,7 +17,6 @@
 .tasks_item:hover {
   cursor: pointer;
   filter: brightness(1.2);
-  transform: scale(1.01);
 }
 
 .tasks_item.checked {
@@ -32,8 +34,10 @@
 }
 
 .tasks_description {
-  height: 3.5rem;
+  height: max-content;
   margin: 1rem 0;
+  font-size: 1rem;
+  opacity: 0.5;
 }
 
 .tasks_informations {

@@ -1,6 +1,6 @@
 import styles from "./Header.module.css";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthValue } from "../context/AuthContext";
 import { useAuthentication } from "../hooks/useAuthentication";
 
@@ -25,6 +25,25 @@ export function Header() {
     }, time());
   };
 
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsExitMenuUser(true);
+
+        setTimeout(() => {
+          setOpenMenuUser(false);
+        }, 500);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className={styles.header}>
       <a href="/">
@@ -35,7 +54,7 @@ export function Header() {
           <input type="name" placeholder="Search task" />
         </label>
 
-        <div className={styles.container_menu}>
+        <div className={styles.container_menu} ref={menuRef}>
           <img
             src={user?.photoURL}
             alt={user?.displayName}
