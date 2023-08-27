@@ -1,0 +1,65 @@
+.tasks_item {
+  background-color: var(--secondary-background-color);
+
+  padding: 1rem 2rem;
+  width: 100%;
+
+  font-size: 0.9rem;
+
+  border-radius: var(--border-radius);
+
+  transition: transform 0.17s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+
+.tasks_item:hover {
+  cursor: pointer;
+  filter: brightness(1.2);
+  transform: scale(1.01);
+}
+
+.tasks_item.checked {
+  background-color: var(--box-checked-color);
+}
+
+.tasks_item.checked button.checked {
+  background-color: var(--green-color);
+  color: var(--main-background-color);
+  font-weight: 700;
+}
+
+.tasks_item h2 {
+  font-size: 1.5rem;
+}
+
+.tasks_description {
+  height: 3.5rem;
+  margin: 1rem 0;
+}
+
+.tasks_informations {
+  margin: 1rem 0;
+  font-size: 0.8rem;
+}
+
+.tasks_buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasks_buttons button {
+  width: 45%;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  font-weight: 700;
+  background-color: var(--box-checked-color);
+  border: none;
+
+  color: var(--text-color);
+}
+
+.tasks_buttons button:hover {
+  transform: scale(1.1);
+
+  transition: transform 0.17s cubic-bezier(0.02, 0.01, 0.47, 1);
+}

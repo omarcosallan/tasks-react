@@ -1,0 +1,53 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 400px;
+  height: 100vh;
+  margin: auto;
+  text-align: center;
+  color: var(--text-color);
+
+  padding: 20px;
+
+  @media (min-width: 768px) {
+    padding: 0;
+  }
+
+  @media (min-width: 1024px) {
+  }
+}
+
+.login p {
+  opacity: 0.5;
+  font-size: 0.9rem;
+  margin: 2rem 0;
+}
+
+.button {
+  height: 3.5rem;
+  width: 100%;
+  background-color: var(--box-checked-color);
+
+  color: var(--text-color);
+
+  border-width: 2px;
+  border-style: solid;
+  border: 1px solid var(--box-checked-color);
+  border-radius: 0.2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  cursor: pointer;
+
+  font-size: 1.2rem;
+
+  transition: background-color 0.3s;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
