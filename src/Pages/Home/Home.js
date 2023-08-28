@@ -19,6 +19,15 @@ export function Home() {
   useEffect(() => {
     if (typeFilter === "all") {
       setTasksDisplayed(documents);
+    } else if (typeFilter === "today") {
+      const currentDate = new Date();
+      setTasksDisplayed(
+        documents?.filter(
+          (doc) =>
+            currentDate.getDate() === doc.createdAt.toDate().getDate() &&
+            !doc.concluded
+        )
+      );
     } else if (typeFilter === "checked") {
       setTasksDisplayed(documents?.filter((doc) => doc.concluded));
     } else if (typeFilter === "no-checked") {
@@ -49,7 +58,11 @@ export function Home() {
   }
 
   const concludedDocuments = documents?.filter((doc) => doc.concluded);
-  const noconcludedDocuments = documents?.filter((doc) => !doc.concluded);
+  const noConcludedDocuments = documents?.filter((doc) => !doc.concluded);
+  const todayDocumnets = documents?.filter(
+    (doc) =>
+      new Date().getDate() === doc.finishIn.toDate().getDate() && !doc.concluded
+  );
   const progressPercentage =
     (concludedDocuments?.length / documents?.length) * 100;
 
@@ -111,25 +124,31 @@ export function Home() {
             className={typeFilter === "all" ? styles.selected : ""}
             onClick={() => setTypeFilter("all")}
           >
-            Todas as tarefas ({documents?.length})
+            <span>Todas as tarefas ({documents?.length})</span>
+          </li>
+          <li
+            className={typeFilter === "today" ? styles.selected : ""}
+            onClick={() => setTypeFilter("today")}
+          >
+            <span> Hoje ({todayDocumnets?.length})</span>
           </li>
           <li
             className={typeFilter === "checked" ? styles.selected : ""}
             onClick={() => setTypeFilter("checked")}
           >
-            Concluidas ({concludedDocuments?.length})
+            <span>Concluidas ({concludedDocuments?.length})</span>
           </li>
           <li
             className={typeFilter === "no-checked" ? styles.selected : ""}
             onClick={() => setTypeFilter("no-checked")}
           >
-            Não concluidas ({noconcludedDocuments?.length})
+            <span>Pendentes ({noConcludedDocuments?.length})</span>
           </li>
         </ul>
       )}
 
       {tasksDisplayed?.length === 0 ? (
-        <p style={{ textAlign: "center" }}>Nenhuma tarefa encontrada</p>
+        <p style={{ textAlign: "center" }}>Nenhuma tarefa encontrada.</p>
       ) : (
         <ul className={`${styles.tasks}`}>
           {tasksDisplayed &&
@@ -176,7 +195,6 @@ export function Home() {
             />
           </label>
           <button type="submit">Adicionar tarefa</button>
-          <p onClick={() => exitAddNewTask(!openAddNewTask)}>Voltar</p>
         </form>
       )}
     </div>

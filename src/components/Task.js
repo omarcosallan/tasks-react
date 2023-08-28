@@ -26,11 +26,11 @@ export function Task({ task }) {
         <p className={styles.tasks_description}>{task.description}</p>
       </div>
       <div>
-        <div className={styles.tasks_informations}>
+        {/* <div className={styles.tasks_informations}>
           <span>Criado em: {task.createdAt.toDate().toLocaleString()}</span>
           <br />
           <span>Concluir até: {task.finishIn.toDate().toLocaleString()}</span>
-        </div>
+        </div> */}
         <div className={styles.tasks_buttons}>
           <button
             className={task.concluded ? styles.checked : ""}

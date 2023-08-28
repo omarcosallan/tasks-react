@@ -4,8 +4,7 @@
   justify-content: space-between;
   background-color: var(--secondary-background-color);
 
-  padding: 1rem 2rem;
-  width: 100%;
+  padding: 2.5rem 2rem;
 
   font-size: 0.9rem;
 
@@ -16,7 +15,7 @@
 
 .tasks_item:hover {
   cursor: pointer;
-  filter: brightness(1.2);
+  /* filter: brightness(1.2); */
 }
 
 .tasks_item.checked {
@@ -33,11 +32,20 @@
   font-size: 1.5rem;
 }
 
+.tasks_item.checked .tasks_description {
+  opacity: 1;
+}
+
 .tasks_description {
-  height: max-content;
-  margin: 1rem 0;
+  height: 91px;
+  margin: 1.5rem 0;
+
   font-size: 1rem;
-  opacity: 0.5;
+  font-weight: bold;
+
+  opacity: 0.8;
+
+  overflow: hidden;
 }
 
 .tasks_informations {
@@ -47,14 +55,15 @@
 
 .tasks_buttons {
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
 }
 
 .tasks_buttons button {
-  width: 45%;
+  width: max-content;
   border-radius: var(--border-radius);
   padding: 0.5rem 0.8rem;
   cursor: pointer;
+  font-size: 0.9rem;
   font-weight: 700;
   background-color: var(--box-checked-color);
   border: none;

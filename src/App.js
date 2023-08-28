@@ -1,11 +1,14 @@
 import "./App.css";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Login } from "./Pages/Login/Login";
 import { Home } from "./Pages/Home/Home";
+
 import { Header } from "./components/Header";
+
 import { useAuthValue } from "./context/AuthContext";
+
 import { useAuthentication } from "./hooks/useAuthentication";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   const { user } = useAuthValue();
@@ -14,7 +17,7 @@ function App() {
   if (loading) {
     return (
       <div className="App container">
-        <p>Carregando</p>
+        <p className="loading">Carregando...</p>
       </div>
     );
   }
