@@ -16,17 +16,11 @@ export function Task({ task }) {
   function handleDeleted(id) {
     deleteDocument(id);
   }
+  console.log(task.finishIn.toDate().getTime());
 
   return (
     <li
-      className={`${styles.tasks_item} ${
-        task.concluded ? styles.checked : ""
-      } ${
-        !task.concluded &&
-        task.finishIn.toDate().getDate() <= new Date().getDate()
-          ? styles.expired
-          : ""
-      }`}
+      className={`${styles.tasks_item} ${task.concluded ? styles.checked : ""}`}
     >
       <div>
         <h2>{task.title}</h2>
@@ -35,10 +29,16 @@ export function Task({ task }) {
       <div>
         <div className={styles.tasks_informations}>
           <span>
-            {task.finishIn.toDate().getDate() <= new Date().getDate()
-              ? "Expira em: "
-              : "Expirou em: "}
-            {task.finishIn.toDate().toLocaleString()}
+            {task.concluded ? (
+              <>{`Concluido em: ${task.createdAt.toDate().toLocaleString()}`}</>
+            ) : (
+              <>
+                {task.finishIn.toDate().getTime() > new Date().getTime()
+                  ? "Expira em: "
+                  : "Expirou em: "}
+                {task.finishIn.toDate().toLocaleString()}
+              </>
+            )}
           </span>
         </div>
         <div className={styles.tasks_buttons}>

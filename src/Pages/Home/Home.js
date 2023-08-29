@@ -35,7 +35,7 @@ export function Home() {
       setTasksDisplayed(
         documents?.filter(
           (doc) =>
-            doc.finishIn.toDate().getDate() <= new Date().getDate() &&
+            doc.finishIn.toDate().getTime() < new Date().getTime() &&
             !doc.concluded
         )
       );
@@ -84,7 +84,7 @@ export function Home() {
   );
   const expiredDocuments = documents?.filter(
     (doc) =>
-      doc.finishIn.toDate().getDate() <= new Date().getDate() && !doc.concluded
+      !doc.concluded && doc.finishIn.toDate().getTime() < new Date().getTime()
   );
 
   const progressPercentage =
