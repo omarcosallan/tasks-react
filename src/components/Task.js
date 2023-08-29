@@ -33,16 +33,11 @@ export function Task({ task }) {
         <p className={styles.tasks_description}>{task.description}</p>
       </div>
       <div>
-        {/* <div className={styles.tasks_informations}>
-          <span>Criado em: {task.createdAt.toDate().toLocaleString()}</span>
-          <br />
-          <span>Concluir até: {task.finishIn.toDate().toLocaleString()}</span>
-        </div> */}
         <div className={styles.tasks_informations}>
           <span>
             {task.finishIn.toDate().getDate() <= new Date().getDate()
-              ? "Expirou em: "
-              : "Expira em: "}
+              ? "Expira em: "
+              : "Expirou em: "}
             {task.finishIn.toDate().toLocaleString()}
           </span>
         </div>
