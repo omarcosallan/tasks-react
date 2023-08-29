@@ -154,11 +154,8 @@
 }
 
 .new_task p {
-  margin-top: 1rem;
-  text-align: center;
-
-  cursor: pointer;
-  text-decoration: underline;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .new_task button:disabled {

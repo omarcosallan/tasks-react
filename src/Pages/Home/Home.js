@@ -54,6 +54,14 @@ export function Home() {
 
     setError("");
 
+    const selectedDate = new Date(finishIn);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      setError("Selecione uma data de vencimento posterior ao dia atual.");
+      return;
+    }
+
     insertDocument({
       title,
       description,
@@ -215,6 +223,7 @@ export function Home() {
               onChange={(e) => setFinishIn(e.target.value)}
             />
           </label>
+          {error && <p>{error}</p>}
           <button type="submit">Adicionar tarefa</button>
         </form>
       )}
