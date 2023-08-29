@@ -25,7 +25,7 @@ export function Home() {
       setTasksDisplayed(
         documents?.filter(
           (doc) =>
-            currentDate.getDate() === doc.createdAt.toDate().getDate() &&
+            currentDate.getDate() === doc.finishIn.toDate().getDate() &&
             !doc.concluded
         )
       );
