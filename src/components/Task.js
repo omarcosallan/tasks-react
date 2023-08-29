@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { useDeleteDocument } from "../hooks/useDeleteDocument";
 import { useEditDocument } from "../hooks/useEditDocument";
 import styles from "./Task.module.css";
@@ -9,6 +10,7 @@ export function Task({ task }) {
   function handleConcluded(id) {
     const updatedData = {
       concluded: !task.concluded,
+      concludedAt: Timestamp.now(),
     };
     editDocument(id, updatedData);
   }
@@ -16,7 +18,6 @@ export function Task({ task }) {
   function handleDeleted(id) {
     deleteDocument(id);
   }
-  console.log(task.finishIn.toDate().getTime());
 
   return (
     <li
@@ -30,7 +31,9 @@ export function Task({ task }) {
         <div className={styles.tasks_informations}>
           <span>
             {task.concluded ? (
-              <>{`Concluido em: ${task.createdAt.toDate().toLocaleString()}`}</>
+              <>{`Concluido em: ${task.concludedAt
+                .toDate()
+                .toLocaleString()}`}</>
             ) : (
               <>
                 {task.finishIn.toDate().getTime() > new Date().getTime()
