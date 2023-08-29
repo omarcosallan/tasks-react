@@ -13,8 +13,9 @@ export function Home() {
   const { user } = useAuthValue();
   const { typeFilter, setTypeFilter } = useFilterType();
   const { documents } = useFetchDocuments("tasks", user.uid);
-  const [tasksDisplayed, setTasksDisplayed] = useState([]);
   const { insertDocument } = useInsertDocument("tasks");
+  const [tasksDisplayed, setTasksDisplayed] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (typeFilter === "all") {
@@ -30,6 +31,14 @@ export function Home() {
       );
     } else if (typeFilter === "checked") {
       setTasksDisplayed(documents?.filter((doc) => doc.concluded));
+    } else if (typeFilter === "expired") {
+      setTasksDisplayed(
+        documents?.filter(
+          (doc) =>
+            doc.finishIn.toDate().getDate() <= new Date().getDate() &&
+            !doc.concluded
+        )
+      );
     } else if (typeFilter === "no-checked") {
       setTasksDisplayed(documents?.filter((doc) => !doc.concluded));
     }
@@ -42,6 +51,8 @@ export function Home() {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    setError("");
 
     insertDocument({
       title,
@@ -63,12 +74,13 @@ export function Home() {
     (doc) =>
       new Date().getDate() === doc.finishIn.toDate().getDate() && !doc.concluded
   );
+  const expiredDocuments = documents?.filter(
+    (doc) =>
+      doc.finishIn.toDate().getDate() <= new Date().getDate() && !doc.concluded
+  );
+
   const progressPercentage =
     (concludedDocuments?.length / documents?.length) * 100;
-
-  const progressStyles = {
-    width: `${progressPercentage}%`,
-  };
 
   const [openAddNewTask, setOpenAddNewTask] = useState(false);
   const [isExitAddNewTask, setIsExitAddNewTask] = useState(false);
@@ -110,7 +122,10 @@ export function Home() {
     <div className={`${styles.home} animate__animated animate__fadeIn`}>
       <div className={styles.progress}>
         <div className={styles.progress_status_container}>
-          <div className={styles.progress_status} style={progressStyles}></div>
+          <div
+            className={styles.progress_status}
+            style={{ width: `${progressPercentage}%` }}
+          ></div>
         </div>
       </div>
 
@@ -137,6 +152,12 @@ export function Home() {
             onClick={() => setTypeFilter("checked")}
           >
             <span>Concluidas ({concludedDocuments?.length})</span>
+          </li>
+          <li
+            className={typeFilter === "expired" ? styles.selected : ""}
+            onClick={() => setTypeFilter("expired")}
+          >
+            <span>Expiradas ({expiredDocuments?.length})</span>
           </li>
           <li
             className={typeFilter === "no-checked" ? styles.selected : ""}

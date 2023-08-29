@@ -59,10 +59,32 @@
   outline: 0;
 }
 
-.photo_url {
+.photo_perfil {
   height: 40px;
   border-radius: 70px;
+}
+
+img.cursor_pointer {
   cursor: pointer;
+}
+
+.item_perfil {
+  width: 100%;
+  padding: 0.7rem;
+
+  background-color: var(--main-background-color);
+
+  color: var(--text-color);
+
+  border-radius: var(--border-radius);
+
+  cursor: pointer;
+
+  transition: background-color 0.3s;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
 }
 
 .button {

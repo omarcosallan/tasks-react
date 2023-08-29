@@ -9,6 +9,7 @@ import { useAuthValue } from "./context/AuthContext";
 
 import { useAuthentication } from "./hooks/useAuthentication";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Dashboard } from "./Pages/Dashboard/Dashboard";
 
 function App() {
   const { user } = useAuthValue();
@@ -28,12 +29,16 @@ function App() {
         {user && <Header />}
         <Routes>
           <Route
-            path="/"
+            path="/:filter?"
             element={user ? <Home /> : <Navigate to="/login" />}
           ></Route>
           <Route
             path="/login"
             element={!user ? <Login /> : <Navigate to="/" />}
+          ></Route>
+          <Route
+            path="/dashboard"
+            element={user ? <Dashboard /> : <Navigate to="/login" />}
           ></Route>
         </Routes>
       </BrowserRouter>

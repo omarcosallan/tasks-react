@@ -19,7 +19,14 @@ export function Task({ task }) {
 
   return (
     <li
-      className={`${styles.tasks_item} ${task.concluded ? styles.checked : ""}`}
+      className={`${styles.tasks_item} ${
+        task.concluded ? styles.checked : ""
+      } ${
+        !task.concluded &&
+        task.finishIn.toDate().getDate() <= new Date().getDate()
+          ? styles.expired
+          : ""
+      }`}
     >
       <div>
         <h2>{task.title}</h2>
@@ -31,6 +38,14 @@ export function Task({ task }) {
           <br />
           <span>Concluir até: {task.finishIn.toDate().toLocaleString()}</span>
         </div> */}
+        <div className={styles.tasks_informations}>
+          <span>
+            {task.finishIn.toDate().getDate() <= new Date().getDate()
+              ? "Expirou em: "
+              : "Expira em: "}
+            {task.finishIn.toDate().toLocaleString()}
+          </span>
+        </div>
         <div className={styles.tasks_buttons}>
           <button
             className={task.concluded ? styles.checked : ""}

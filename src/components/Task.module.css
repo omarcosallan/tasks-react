@@ -15,12 +15,15 @@
 
 .tasks_item:hover {
   cursor: pointer;
-  /* filter: brightness(1.2); */
 }
 
 .tasks_item.checked {
   background-color: var(--box-checked-color);
 }
+
+/* .tasks_item.expired {
+  background-color: var(--expired-color);
+} */
 
 .tasks_item.checked button.checked {
   background-color: var(--green-color);

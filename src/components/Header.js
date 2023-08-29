@@ -3,6 +3,7 @@ import styles from "./Header.module.css";
 import { useEffect, useRef, useState } from "react";
 import { useAuthValue } from "../context/AuthContext";
 import { useAuthentication } from "../hooks/useAuthentication";
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
   const { sigOut } = useAuthentication();
@@ -10,6 +11,8 @@ export function Header() {
 
   const [openMenuUser, setOpenMenuUser] = useState(false);
   const [isExitMenuUser, setIsExitMenuUser] = useState(false);
+
+  const navigate = useNavigate();
 
   const exitMenuUser = (value) => {
     setIsExitMenuUser(!value);
@@ -58,7 +61,7 @@ export function Header() {
           <img
             src={user?.photoURL}
             alt={user?.displayName}
-            className={styles.photo_url}
+            className={`${styles.photo_perfil} ${styles.cursor_pointer}`}
             onClick={() => exitMenuUser(!openMenuUser)}
           />
           {openMenuUser && (
@@ -71,12 +74,19 @@ export function Header() {
                 <img
                   src={user?.photoURL}
                   alt={user?.displayName}
-                  className={styles.photo_url}
+                  className={styles.photo_perfil}
                 />
                 <div>
                   <p className="bold">{user?.displayName}</p>
                   <p>{user?.email}</p>
                 </div>
+              </div>
+
+              <div
+                className={styles.item_perfil}
+                onClick={() => navigate("dashboard")}
+              >
+                <span>Dashboard</span>
               </div>
 
               <button type="button" onClick={sigOut} className={styles.button}>

@@ -10,6 +10,9 @@
   --box-checked-color: rgba(91, 53, 214, 255);
   --options-color: rgb(41, 41, 46);
   --green-color: rgb(4, 211, 97);
+  --blue-color: #0070f3;
+  --red-color: rgb(233, 63, 63);
+  --cyan-color: #4acabb;
 
   --primary: #00b37e;
   --gray: #e1e1e6;
@@ -24,6 +27,7 @@
   flex: 1;
   color: var(--text-color);
 }
+
 .container p.loading {
   width: 100vw;
   height: 100vh;
