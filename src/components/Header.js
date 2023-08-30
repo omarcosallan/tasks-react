@@ -3,7 +3,7 @@ import styles from "./Header.module.css";
 import { useEffect, useRef, useState } from "react";
 import { useAuthValue } from "../context/AuthContext";
 import { useAuthentication } from "../hooks/useAuthentication";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Header() {
   const { sigOut } = useAuthentication();
@@ -49,9 +49,9 @@ export function Header() {
 
   return (
     <header className={styles.header}>
-      <a href="/">
+      <Link to="/">
         <h1>TO DO LIST</h1>
-      </a>
+      </Link>
       <div className={styles.left}>
         <label className={styles.search}>
           <input type="name" placeholder="Search task" />

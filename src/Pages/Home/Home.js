@@ -8,6 +8,7 @@ import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import { Timestamp } from "firebase/firestore";
 import { useFilterType } from "../../context/FilterType";
+import { categorizeTasks } from "../../utils/categorizeTasks";
 
 export function Home() {
   const { user } = useAuthValue();
@@ -16,6 +17,26 @@ export function Home() {
   const { insertDocument } = useInsertDocument("tasks");
   const [tasksDisplayed, setTasksDisplayed] = useState([]);
   const [error, setError] = useState(false);
+
+  const {
+    concludedDocuments,
+    concludedTodayDocuments,
+    noConcludedDocuments,
+    expiredDocuments,
+  } = categorizeTasks(documents);
+
+  const newTaskRef = useRef(null);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [finishIn, setFinishIn] = useState("");
+  const createdBy = user.uid;
+
+  const progressPercentage =
+    (concludedDocuments?.length / documents?.length) * 100;
+
+  const [openAddNewTask, setOpenAddNewTask] = useState(false);
+  const [isExitAddNewTask, setIsExitAddNewTask] = useState(false);
 
   useEffect(() => {
     if (typeFilter === "all") {
@@ -44,11 +65,6 @@ export function Home() {
     }
   }, [typeFilter, documents]);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [finishIn, setFinishIn] = useState("");
-  const createdBy = user.uid;
-
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -56,6 +72,21 @@ export function Home() {
 
     const selectedDate = new Date(finishIn);
     const currentDate = new Date();
+
+    if (!title || !description || !finishIn) {
+      setError("Por favor, preencha todos os campos obrigatórios*.");
+      return;
+    }
+
+    if (title.length < 4) {
+      setError("O título deve conter no mínimo 4 caracteres.");
+      return;
+    }
+
+    if (description.length < 4 || description.length >= 100) {
+      setError("A descrição deve conter entre 4 e 10 caracteres.");
+      return;
+    }
 
     if (selectedDate < currentDate) {
       setError("Selecione uma data de vencimento posterior ao dia atual.");
@@ -76,23 +107,6 @@ export function Home() {
     setOpenAddNewTask(false);
   }
 
-  const concludedDocuments = documents?.filter((doc) => doc.concluded);
-  const noConcludedDocuments = documents?.filter((doc) => !doc.concluded);
-  const todayDocumnets = documents?.filter(
-    (doc) =>
-      new Date().getDate() === doc.finishIn.toDate().getDate() && !doc.concluded
-  );
-  const expiredDocuments = documents?.filter(
-    (doc) =>
-      !doc.concluded && doc.finishIn.toDate().getTime() < new Date().getTime()
-  );
-
-  const progressPercentage =
-    (concludedDocuments?.length / documents?.length) * 100;
-
-  const [openAddNewTask, setOpenAddNewTask] = useState(false);
-  const [isExitAddNewTask, setIsExitAddNewTask] = useState(false);
-
   const exitAddNewTask = async (value) => {
     await setIsExitAddNewTask(!value);
 
@@ -106,8 +120,6 @@ export function Home() {
       setOpenAddNewTask(value);
     }, time());
   };
-
-  const newTaskRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -153,7 +165,7 @@ export function Home() {
             className={typeFilter === "today" ? styles.selected : ""}
             onClick={() => setTypeFilter("today")}
           >
-            <span> Hoje ({todayDocumnets?.length})</span>
+            <span> Hoje ({concludedTodayDocuments?.length})</span>
           </li>
           <li
             className={typeFilter === "checked" ? styles.selected : ""}
@@ -181,7 +193,9 @@ export function Home() {
       ) : (
         <ul className={`${styles.tasks}`}>
           {tasksDisplayed &&
-            tasksDisplayed.map((task) => <Task task={task} key={task.id} />)}
+            tasksDisplayed.map((task) => (
+              <Task task={task} key={task.id} pointerEvents={openAddNewTask} />
+            ))}
         </ul>
       )}
 
@@ -192,23 +206,25 @@ export function Home() {
           } `}
           onSubmit={(e) => handleSubmit(e)}
           ref={newTaskRef}
+          noValidate
         >
           <label>
             <span>Título:</span>
             <input
               type="text"
               placeholder="Título"
-              maxLength="20"
+              minLength="4"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </label>
           <label>
-            <span>Descrição (Opcional):</span>
+            <span>Descrição:</span>
             <input
               type="text"
               placeholder="Descrição"
+              required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -223,7 +239,7 @@ export function Home() {
               onChange={(e) => setFinishIn(e.target.value)}
             />
           </label>
-          {error && <p>{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
           <button type="submit">Adicionar tarefa</button>
         </form>
       )}

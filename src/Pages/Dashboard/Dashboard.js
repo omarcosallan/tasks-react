@@ -4,22 +4,20 @@ import styles from "./Dashboard.module.css";
 
 import { useFilterType } from "../../context/FilterType";
 import { Link } from "react-router-dom";
+import { categorizeTasks } from "../../utils/categorizeTasks";
+import { useScoreUser } from "../../hooks/useScoreUser";
 
 export function Dashboard() {
   const { user } = useAuthValue();
   const { documents } = useFetchDocuments("tasks", user.uid);
+  const { scoreCompleted, scoreNoCompleted, scoreExpired } = useScoreUser();
+  const {
+    concludedDocuments,
+    concludedTodayDocuments,
+    noConcludedDocuments,
+    expiredDocuments,
+  } = categorizeTasks(documents);
   const { setTypeFilter } = useFilterType();
-
-  const concludedDocuments = documents?.filter((doc) => doc.concluded);
-  const concludedTodayDocuments = documents?.filter(
-    (doc) =>
-      new Date().getDate() === doc.finishIn.toDate().getDate() && !doc.concluded
-  );
-  const noConcludedDocuments = documents?.filter((doc) => !doc.concluded);
-  const expiredDocuments = documents?.filter(
-    (doc) =>
-      doc.finishIn.toDate().getDate() <= new Date().getDate() && !doc.concluded
-  );
 
   return (
     <div className={`${styles.dashboard} animate__animated animate__fadeIn`}>
@@ -75,76 +73,112 @@ export function Dashboard() {
             )}
           </div>
         )}
+
         {documents?.length > 0 && (
-          <div className={`${styles.graphic_bar} ${styles.card}`}>
-            <div>
-              <div className={styles.bar}>
-                <div
-                  style={{
-                    height: "100%",
-                    backgroundColor: "var(--blue-color)",
-                  }}
-                  className="blue"
-                ></div>
+          <div className={styles.informations}>
+            <div className={`${styles.graphic_bar} ${styles.card}}`}>
+              <div>
+                <div className={styles.bar}>
+                  <div
+                    style={{
+                      height: "100%",
+                      backgroundColor: "var(--blue-color)",
+                    }}
+                    className="blue"
+                  ></div>
+                </div>
+                <span>Todas as tarefas ({documents?.length})</span>
               </div>
-              <span>Todas as tarefas ({documents?.length})</span>
+              <div>
+                <div className={styles.bar}>
+                  <div
+                    style={{
+                      height: `${
+                        (concludedDocuments?.length / documents?.length) * 100
+                      }%`,
+                      backgroundColor: "var(--green-color)",
+                    }}
+                  ></div>
+                </div>
+                <span>
+                  Concluidas (
+                  {Math.round(
+                    (concludedDocuments?.length / documents?.length) * 100
+                  )}
+                  %)
+                </span>
+              </div>
+              <div>
+                <div className={styles.bar}>
+                  <div
+                    style={{
+                      height: `${
+                        (noConcludedDocuments?.length / documents?.length) * 100
+                      }%`,
+                      backgroundColor: "var(--red-color)",
+                    }}
+                  ></div>
+                </div>
+                <span>
+                  Pendentes (
+                  {Math.round(
+                    (noConcludedDocuments?.length / documents?.length) * 100
+                  )}
+                  %)
+                </span>
+              </div>
+              <div>
+                <div className={styles.bar}>
+                  <div
+                    style={{
+                      height: `${
+                        (expiredDocuments?.length / documents?.length) * 100
+                      }%`,
+                      backgroundColor: "var(--cyan-color)",
+                    }}
+                  ></div>
+                </div>
+                <span>
+                  Expiradas (
+                  {Math.round(
+                    (expiredDocuments?.length / documents?.length) * 100
+                  )}
+                  %)
+                </span>
+              </div>
             </div>
-            <div>
-              <div className={styles.bar}>
-                <div
+
+            <div className={`${styles.score} ${styles.card}}`}>
+              <h2>Score (Pontos)</h2>
+              <div>
+                <p
                   style={{
-                    height: `${
-                      (concludedDocuments?.length / documents?.length) * 100
-                    }%`,
                     backgroundColor: "var(--green-color)",
+                    color: "var(--main-background-color)",
                   }}
-                ></div>
-              </div>
-              <span>
-                Concluidas (
-                {Math.round(
-                  (concludedDocuments?.length / documents?.length) * 100
-                )}
-                %)
-              </span>
-            </div>
-            <div>
-              <div className={styles.bar}>
-                <div
+                >
+                  Concluidas: {scoreCompleted}
+                </p>
+                <p
                   style={{
-                    height: `${
-                      (noConcludedDocuments?.length / documents?.length) * 100
-                    }%`,
-                    backgroundColor: "var(--red-color)",
-                  }}
-                ></div>
-              </div>
-              <span>
-                Pendentes (
-                {Math.round(
-                  (noConcludedDocuments?.length / documents?.length) * 100
-                )}
-                %)
-              </span>
-            </div>
-            <div>
-              <div className={styles.bar}>
-                <div
-                  style={{
-                    height: `${
-                      (expiredDocuments?.length / documents?.length) * 100
-                    }%`,
                     backgroundColor: "var(--cyan-color)",
+                    color: "var(--main-background-color)",
                   }}
-                ></div>
+                >
+                  Pendentes: {scoreNoCompleted}
+                </p>
+                <p
+                  style={{
+                    backgroundColor: "var(--red-color)",
+                    color: "var(--main-background-color)",
+                  }}
+                >
+                  Expiradas: {scoreExpired}
+                </p>
+                <p style={{ backgroundColor: "var(--main-background-color)" }}>
+                  Total: {scoreCompleted + scoreNoCompleted + scoreExpired}
+                </p>
               </div>
-              <span>
-                Expiradas (
-                {Math.round(
-                  (expiredDocuments?.length / documents?.length) * 100
-                )}
-                %)
-              </span>
             </div>
           </div>
         )}
@@ -159,7 +193,7 @@ export function Dashboard() {
             <br />
             Volte para a página inicial e comece sua jornada no To Do List.
           </p>
-          <a href="/">Criar primeira tarefa</a>
+          <Link to="/">Criar primeira tarefa</Link>
         </div>
       )}
     </div>

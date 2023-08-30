@@ -21,9 +21,9 @@
   background-color: var(--box-checked-color);
 }
 
-/* .tasks_item.expired {
-  background-color: var(--expired-color);
-} */
+.inactive {
+  pointer-events: none;
+}
 
 .tasks_item.checked button.checked {
   background-color: var(--green-color);
