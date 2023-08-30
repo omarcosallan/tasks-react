@@ -119,16 +119,23 @@
 .score {
   display: grid;
   justify-content: center;
-  grid-template-rows: 1fr 1fr;
-  gap: 1rem;
+  grid-template-rows: 0.5fr 1fr;
+
+  @media (min-width: 768px) {
+    grid-template-rows: 1fr 1fr;
+  }
 }
 
 .score div {
   display: grid;
   align-items: left;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 
   gap: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
 
 .score div p {
