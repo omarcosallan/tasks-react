@@ -1,0 +1,43 @@
+.graphic_bar {
+  text-align: center;
+  padding: 1rem;
+
+  font-size: 0.8rem;
+  font-weight: bold;
+
+  background-color: var(--secondary-background-color);
+
+  border-radius: var(--border-radius);
+
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    font-size: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 2rem;
+  }
+}
+
+.graphic_bar div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+}
+
+.bar {
+  max-width: 40px;
+  margin: 0 auto;
+  height: 250px;
+  background-color: var(--main-background-color);
+  transform: rotate(180deg);
+}

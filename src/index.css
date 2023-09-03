@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: var(--main-background-color);
   font-family: "Nunito", sans-serif;
@@ -11,4 +17,9 @@ button {
 
 .bold {
   font-weight: bold;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
 }

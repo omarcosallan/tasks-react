@@ -1,0 +1,41 @@
+.filter_type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  width: 100%;
+  margin: 0 auto;
+  max-width: max-content;
+  height: max-content;
+
+  font-size: 0.8rem;
+  font-weight: bold;
+
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.filter_type li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  padding: 1rem;
+}
+
+.filter_type li:hover {
+  cursor: pointer;
+  background-color: var(--secondary-background-color);
+}
+
+.filter_type .selected {
+  background-color: var(--secondary-background-color);
+}

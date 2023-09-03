@@ -1,0 +1,56 @@
+.new_task {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 2.5rem;
+
+  @media (min-width: 768px) {
+  }
+}
+
+.new_task div {
+  margin-bottom: 0.5rem;
+}
+
+.new_task label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.new_task input {
+  padding: 1rem;
+}
+
+.new_task input:focus {
+  border: 1px solid var(--box-checked-color);
+}
+
+.new_task input,
+.new_task button {
+  background-color: var(--secondary-background-color);
+
+  color: var(--text-color);
+
+  width: 100%;
+
+  font-size: 1rem;
+
+  border-radius: var(--border-radius);
+}
+
+.new_task button {
+  cursor: pointer;
+  margin-top: 1rem;
+  background-color: var(--box-checked-color);
+  padding: 1rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
+.error {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}

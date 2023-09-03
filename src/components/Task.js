@@ -3,7 +3,7 @@ import { useDeleteDocument } from "../hooks/useDeleteDocument";
 import { useEditDocument } from "../hooks/useEditDocument";
 import styles from "./Task.module.css";
 
-export function Task({ task, pointerEvents }) {
+export function Task({ task }) {
   const { editDocument } = useEditDocument("tasks");
   const { deleteDocument } = useDeleteDocument("tasks");
 
@@ -21,9 +21,7 @@ export function Task({ task, pointerEvents }) {
 
   return (
     <li
-      className={`${styles.tasks_item} ${
-        task.concluded ? styles.checked : ""
-      } ${pointerEvents ? styles.inactive : ""}`}
+      className={`${styles.tasks_item} ${task.concluded ? styles.checked : ""}`}
     >
       <div>
         <h2>{task.title}</h2>

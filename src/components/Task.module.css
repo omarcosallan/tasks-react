@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--secondary-background-color);
-
+  overflow: hidden;
   padding: 2.5rem 2rem;
 
   font-size: 0.9rem;
@@ -21,29 +21,20 @@
   background-color: var(--box-checked-color);
 }
 
-.inactive {
-  pointer-events: none;
-}
-
 .tasks_item.checked button.checked {
   background-color: var(--green-color);
   color: var(--main-background-color);
-  font-weight: 700;
 }
 
 .tasks_item h2 {
   font-size: 1.5rem;
 }
 
-.tasks_item.checked .tasks_description {
-  opacity: 1;
-}
-
 .tasks_description {
-  height: 91px;
-  margin: 1.5rem 0;
+  height: 90px;
+  margin: 0.5rem 0;
 
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: bold;
 
   opacity: 0.8;
@@ -52,7 +43,7 @@
 }
 
 .tasks_informations {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   font-size: 0.8rem;
 }
 
@@ -67,7 +58,7 @@
   padding: 0.5rem 0.8rem;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: bold;
   background-color: var(--box-checked-color);
   border: none;
 

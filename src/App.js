@@ -2,6 +2,8 @@ import "./App.css";
 
 import { Login } from "./Pages/Login/Login";
 import { Home } from "./Pages/Home/Home";
+import { Dashboard } from "./Pages/Dashboard/Dashboard";
+import { NewTask } from "./Pages/NewTask/NewTask";
 
 import { Header } from "./components/Header";
 
@@ -9,7 +11,6 @@ import { useAuthValue } from "./context/AuthContext";
 
 import { useAuthentication } from "./hooks/useAuthentication";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard } from "./Pages/Dashboard/Dashboard";
 
 function App() {
   const { user } = useAuthValue();
@@ -39,6 +40,10 @@ function App() {
           <Route
             path="/dashboard"
             element={user ? <Dashboard /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            path="/create/task"
+            element={user ? <NewTask /> : <Navigate to="/login" />}
           ></Route>
         </Routes>
       </BrowserRouter>

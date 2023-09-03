@@ -1,0 +1,19 @@
+.new_task {
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+
+  padding: 10px;
+
+  @media (min-width: 768px) {
+    padding: 50px 90px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 50px 130px;
+  }
+}
+
+.new_task h1 {
+  margin-bottom: 0.5rem;
+}

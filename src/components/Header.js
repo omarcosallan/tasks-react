@@ -3,41 +3,22 @@ import styles from "./Header.module.css";
 import { useEffect, useRef, useState } from "react";
 import { useAuthValue } from "../context/AuthContext";
 import { useAuthentication } from "../hooks/useAuthentication";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Home, LayoutDashboard, LogOut } from "lucide-react";
 
 export function Header() {
   const { sigOut } = useAuthentication();
   const { user } = useAuthValue();
-
   const [openMenuUser, setOpenMenuUser] = useState(false);
-  const [isExitMenuUser, setIsExitMenuUser] = useState(false);
-
   const navigate = useNavigate();
-
-  const exitMenuUser = (value) => {
-    setIsExitMenuUser(!value);
-
-    function time() {
-      if (value) {
-        return 0;
-      } else return 500;
-    }
-
-    setTimeout(() => {
-      setOpenMenuUser(value);
-    }, time());
-  };
-
   const menuRef = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsExitMenuUser(true);
+    const menuElement = menuRef.current;
 
-        setTimeout(() => {
-          setOpenMenuUser(false);
-        }, 500);
+    function handleClickOutside(event) {
+      if (menuElement && !menuElement.contains(event.target)) {
+        setOpenMenuUser(false);
       }
     }
 
@@ -45,30 +26,43 @@ export function Header() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [openMenuUser]);
 
   return (
     <header className={styles.header}>
       <Link to="/">
         <h1>TO DO LIST</h1>
       </Link>
-      <div className={styles.left}>
-        <label className={styles.search}>
-          <input type="name" placeholder="Search task" />
-        </label>
+      <nav className={styles.nav}>
+        <NavLink
+          className={({ isActive }) => `${isActive ? styles.active : ""} `}
+          to={"/"}
+        >
+          <Home />
+          <span>Home</span>
+        </NavLink>
 
-        <div className={styles.container_menu} ref={menuRef}>
-          <img
-            src={user?.photoURL}
-            alt={user?.displayName}
+        <NavLink
+          className={({ isActive }) => `${isActive ? styles.active : ""} `}
+          to={"dashboard"}
+        >
+          <LayoutDashboard />
+          <span>Dashboard</span>
+        </NavLink>
+
+        <div className={styles.container_menu}>
+          <button
             className={`${styles.photo_perfil} ${styles.cursor_pointer}`}
-            onClick={() => exitMenuUser(!openMenuUser)}
-          />
+            onClick={() => setOpenMenuUser(!openMenuUser)}
+            disabled={openMenuUser}
+          >
+            <img src={user?.photoURL} alt={user?.displayName} />
+          </button>
+
           {openMenuUser && (
             <div
-              className={`${styles.menu_open} animate__animated ${
-                isExitMenuUser ? "animate__bounceOut" : "animate__bounceIn"
-              }`}
+              className={`${styles.menu_open}  animate__animated animate__bounceIn`}
+              ref={menuRef}
             >
               <div>
                 <img
@@ -82,20 +76,18 @@ export function Header() {
                 </div>
               </div>
 
-              <div
-                className={styles.item_perfil}
-                onClick={() => navigate("dashboard")}
+              <button
+                type="button"
+                onClick={sigOut}
+                className={styles.btn_logout}
               >
-                <span>Dashboard</span>
-              </div>
-
-              <button type="button" onClick={sigOut} className={styles.button}>
+                <LogOut />
                 <span>Sair</span>
               </button>
             </div>
           )}
         </div>
-      </div>
+      </nav>
     </header>
   );
 }

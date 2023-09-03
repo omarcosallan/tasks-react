@@ -3,18 +3,19 @@
   top: 0;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
 
   background-color: var(--main-background-color);
-
   padding: 10px;
-
   border-bottom: 1px solid var(--secondary-background-color);
 
   z-index: 1;
 
   @media (min-width: 768px) {
+    flex-direction: row;
     padding: 10px 90px;
   }
 
@@ -32,75 +33,66 @@
   font-size: 1.5rem;
 }
 
-.left {
+.nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 30%;
+  width: max-content;
 }
 
-.search {
-  display: none;
-  width: 70%;
-  background-color: var(--secondary-background-color);
-  border-radius: 0.5rem;
-
-  @media (min-width: 768px) {
-    display: flex;
-  }
-}
-
-.search input {
-  background-color: transparent;
-  border: none;
-  color: var(--text-color);
-  padding: 0.7rem;
-  outline: 0;
-}
-
-.photo_perfil {
-  height: 40px;
-  border-radius: 70px;
-}
-
-img.cursor_pointer {
-  cursor: pointer;
-}
-
-.item_perfil {
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   padding: 0.7rem;
-
-  background-color: var(--main-background-color);
-
+  background-color: transparent;
   color: var(--text-color);
-
+  border: none;
   border-radius: var(--border-radius);
-
   cursor: pointer;
-
   transition: background-color 0.3s;
+
+  font-size: 0.8rem;
+  font-weight: bold;
 
   &:hover {
     filter: brightness(1.2);
+    background-color: var(--secondary-background-color);
   }
 }
 
-.button {
-  width: 100px;
+a.active {
+  background-color: var(--secondary-background-color);
+}
+
+.photo_perfil,
+.photo_perfil img {
+  vertical-align: middle;
+  height: 40px;
+  border-radius: 70px;
+  border: none;
+  outline: none;
+}
+
+.cursor_pointer {
+  cursor: pointer;
+}
+
+.btn_logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  width: 100%;
   padding: 0.7rem;
   background-color: var(--box-checked-color);
-
   color: var(--text-color);
-
-  border-width: 2px;
-  border-style: solid;
   border: 1px solid var(--box-checked-color);
   border-radius: var(--border-radius);
-
   cursor: pointer;
-
   transition: background-color 0.3s;
 
   &:hover {
@@ -132,10 +124,6 @@ img.cursor_pointer {
   right: 0;
 
   border-radius: var(--border-radius);
-}
-
-.menu_open .button {
-  width: 100%;
 }
 
 .menu_open > div {
